@@ -13,7 +13,7 @@
     --gray-medium: #9CA3AF;
 
     /* Palette Infirmier (tons verts/émeraude) */
-    --infirmier-primary: #4A9B7F;
+    --infirmier-primary: #5A7A6A;
     --infirmier-secondary: #5A7A6A;
     --infirmier-accent: #6BBAA1;
     --infirmier-light: #E8F5F0;
@@ -525,7 +525,7 @@ body {
     opacity: 0.9;
 }
 
-/* ==========================================
+/* /* ==========================================
    TIMELINE SECTION
    ========================================== */
 
@@ -569,11 +569,9 @@ body {
 }
 
 .timeline-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
     margin-bottom: 4rem;
     position: relative;
+    width: 100%;
 }
 
 /* Point sur la timeline */
@@ -602,22 +600,26 @@ body {
     box-shadow: 0 0 0 4px rgba(217, 74, 74, 0.2);
 }
 
-/* Items à gauche */
+/* Items à GAUCHE */
+.timeline-item.left {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .timeline-item.left .timeline-content {
-    grid-column: 1;
+    width: 45%;
     text-align: right;
 }
 
 .timeline-item.left::after {
     content: '';
     position: absolute;
-    left: 50%;
+    left: 45%;
     top: 35px;
-    width: 30px;
+    width: 5%;
     height: 2px;
     background-color: var(--primary-color);
     z-index: 2;
-    margin-left: -30px;
 }
 
 .page-infirmier .timeline-item.left::after {
@@ -628,23 +630,23 @@ body {
     background-color: var(--projets-primary);
 }
 
-/* Items à droite */
+/* Items à DROITE */
 .timeline-item.right {
-    direction: rtl;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .timeline-item.right .timeline-content {
-    direction: ltr;
-    grid-column: 2;
+    width: 45%;
     text-align: left;
 }
 
 .timeline-item.right::after {
     content: '';
     position: absolute;
-    left: 50%;
+    right: 45%;
     top: 35px;
-    width: 30px;
+    width: 5%;
     height: 2px;
     background-color: var(--primary-color);
     z-index: 2;
@@ -912,34 +914,41 @@ body {
         max-width: 300px;
     }
 
-    /* Timeline responsive */
+    /* Timeline responsive - TOUT À GAUCHE SUR MOBILE */
     .timeline-container::before {
         left: 30px;
     }
 
     .timeline-item {
-        grid-template-columns: 1fr;
-        padding-left: 80px;
+        margin-bottom: 3rem;
     }
 
     .timeline-item::before {
         left: 30px;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item.left,
+    .timeline-item.right {
+        display: block;
+        padding-left: 80px;
     }
 
     .timeline-item.left .timeline-content,
     .timeline-item.right .timeline-content {
-        grid-column: 1;
+        width: 100%;
         text-align: left;
     }
 
-    .timeline-item.left::after,
-    .timeline-item.right::after {
-        left: 30px;
-        margin-left: 20px;
+    .timeline-item.left::after {
+        left: 40px;
+        width: 30px;
     }
 
-    .timeline-item.right {
-        direction: ltr;
+    .timeline-item.right::after {
+        left: 40px;
+        right: auto;
+        width: 30px;
     }
 
     .project-links {
@@ -952,32 +961,5 @@ body {
 
     .section-title {
         font-size: 2rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .cta-buttons {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    .contact-links {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .hero {
-        padding: 4rem 1rem;
-    }
-
-    .about,
-    .skills,
-    .certifications,
-    .timeline-section {
-        padding: 3rem 1rem;
     }
 }
