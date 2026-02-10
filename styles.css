@@ -3,6 +3,7 @@
    ========================================== */
 
 :root {
+    /* Couleurs principales (page d'accueil) */
     --primary-color: #D94A4A;
     --secondary-color: #E8DDD1;
     --accent-color: #5A7A6A;
@@ -10,6 +11,19 @@
     --light-color: #FFFFFF;
     --gray-light: #F5F5F5;
     --gray-medium: #9CA3AF;
+
+    /* Palette Infirmier (tons verts/émeraude) */
+    --infirmier-primary: #4A9B7F;
+    --infirmier-secondary: #5A7A6A;
+    --infirmier-accent: #6BBAA1;
+    --infirmier-light: #E8F5F0;
+
+    /* Palette Projets Dev (tons rouge/bordeaux) */
+    --projets-primary: #D94A4A;
+    --projets-secondary: #A83C3C;
+    --projets-accent: #E67E50;
+    --projets-light: #FFF5F5;
+
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
@@ -72,6 +86,23 @@ body {
     color: var(--accent-color);
 }
 
+/* Logo adaptatif selon la page */
+.page-infirmier .logo {
+    color: var(--infirmier-primary);
+}
+
+.page-infirmier .logo:hover {
+    color: var(--infirmier-accent);
+}
+
+.page-projets .logo {
+    color: var(--projets-primary);
+}
+
+.page-projets .logo:hover {
+    color: var(--projets-accent);
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
@@ -97,6 +128,14 @@ body {
     transition: var(--transition);
 }
 
+.page-infirmier .nav-link::after {
+    background-color: var(--infirmier-primary);
+}
+
+.page-projets .nav-link::after {
+    background-color: var(--projets-primary);
+}
+
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
@@ -105,6 +144,16 @@ body {
 .nav-link:hover,
 .nav-link.active {
     color: var(--primary-color);
+}
+
+.page-infirmier .nav-link:hover,
+.page-infirmier .nav-link.active {
+    color: var(--infirmier-primary);
+}
+
+.page-projets .nav-link:hover,
+.page-projets .nav-link.active {
+    color: var(--projets-primary);
 }
 
 .hamburger {
@@ -257,6 +306,16 @@ body {
     border-radius: 2px;
 }
 
+/* Couleurs spécifiques pour la page infirmier */
+.page-infirmier .section-title::after {
+    background-color: var(--infirmier-primary);
+}
+
+/* Couleurs spécifiques pour la page projets */
+.page-projets .section-title::after {
+    background-color: var(--projets-primary);
+}
+
 /* ==========================================
    ABOUT SECTION
    ========================================== */
@@ -297,6 +356,14 @@ body {
     color: var(--light-color);
 }
 
+.page-infirmier .icon {
+    background: linear-gradient(135deg, var(--infirmier-primary), var(--infirmier-accent));
+}
+
+.page-projets .icon {
+    background: linear-gradient(135deg, var(--projets-primary), var(--projets-accent));
+}
+
 .about-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
@@ -326,10 +393,26 @@ body {
     border-left: 4px solid var(--primary-color);
 }
 
+.page-infirmier .skill-category {
+    border-left-color: var(--infirmier-primary);
+}
+
+.page-projets .skill-category {
+    border-left-color: var(--projets-primary);
+}
+
 .skill-category h3 {
     font-size: 1.3rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
+}
+
+.page-infirmier .skill-category h3 {
+    color: var(--infirmier-primary);
+}
+
+.page-projets .skill-category h3 {
+    color: var(--projets-primary);
 }
 
 .skill-category ul {
@@ -349,6 +432,14 @@ body {
     left: 0;
     color: var(--accent-color);
     font-size: 1.2rem;
+}
+
+.page-infirmier .skill-category li::before {
+    color: var(--infirmier-accent);
+}
+
+.page-projets .skill-category li::before {
+    color: var(--projets-accent);
 }
 
 /* ==========================================
@@ -416,6 +507,14 @@ body {
     color: var(--light-color);
 }
 
+.page-infirmier .page-header {
+    background: linear-gradient(135deg, var(--infirmier-primary), var(--infirmier-secondary));
+}
+
+.page-projets .page-header {
+    background: linear-gradient(135deg, var(--projets-primary), var(--projets-secondary));
+}
+
 .page-header h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
@@ -435,6 +534,14 @@ body {
     background-color: var(--gray-light);
 }
 
+.page-infirmier .timeline-section {
+    background: linear-gradient(to bottom, var(--infirmier-light), var(--light-color));
+}
+
+.page-projets .timeline-section {
+    background: linear-gradient(to bottom, var(--projets-light), var(--light-color));
+}
+
 .timeline-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -451,6 +558,14 @@ body {
     height: 100%;
     background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
     z-index: 1;
+}
+
+.page-infirmier .timeline-container::before {
+    background: linear-gradient(180deg, var(--infirmier-primary), var(--infirmier-accent));
+}
+
+.page-projets .timeline-container::before {
+    background: linear-gradient(180deg, var(--projets-primary), var(--projets-accent));
 }
 
 .timeline-item {
@@ -477,6 +592,16 @@ body {
     box-shadow: 0 0 0 4px rgba(217, 74, 74, 0.2);
 }
 
+.page-infirmier .timeline-item::before {
+    background-color: var(--infirmier-primary);
+    box-shadow: 0 0 0 4px rgba(74, 155, 127, 0.2);
+}
+
+.page-projets .timeline-item::before {
+    background-color: var(--projets-primary);
+    box-shadow: 0 0 0 4px rgba(217, 74, 74, 0.2);
+}
+
 /* Items à gauche */
 .timeline-item.left .timeline-content {
     grid-column: 1;
@@ -493,6 +618,14 @@ body {
     background-color: var(--primary-color);
     z-index: 2;
     margin-left: -30px;
+}
+
+.page-infirmier .timeline-item.left::after {
+    background-color: var(--infirmier-primary);
+}
+
+.page-projets .timeline-item.left::after {
+    background-color: var(--projets-primary);
 }
 
 /* Items à droite */
@@ -515,6 +648,14 @@ body {
     height: 2px;
     background-color: var(--primary-color);
     z-index: 2;
+}
+
+.page-infirmier .timeline-item.right::after {
+    background-color: var(--infirmier-primary);
+}
+
+.page-projets .timeline-item.right::after {
+    background-color: var(--projets-primary);
 }
 
 .timeline-content {
@@ -541,6 +682,14 @@ body {
     margin-bottom: 1rem;
 }
 
+.page-infirmier .timeline-date {
+    background-color: var(--infirmier-primary);
+}
+
+.page-projets .timeline-date {
+    background-color: var(--projets-primary);
+}
+
 .timeline-content h3 {
     font-size: 1.8rem;
     color: var(--dark-color);
@@ -552,6 +701,14 @@ body {
     font-weight: 600;
     margin-bottom: 1rem;
     font-size: 1.1rem;
+}
+
+.page-infirmier .project-type {
+    color: var(--infirmier-secondary);
+}
+
+.page-projets .project-type {
+    color: var(--projets-secondary);
 }
 
 .project-description {
@@ -574,6 +731,16 @@ body {
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 500;
+}
+
+.page-infirmier .tech-tag {
+    background-color: var(--infirmier-light);
+    color: var(--infirmier-secondary);
+}
+
+.page-projets .tech-tag {
+    background-color: var(--projets-light);
+    color: var(--projets-secondary);
 }
 
 /* ==========================================
@@ -622,9 +789,25 @@ body {
     transition: var(--transition);
 }
 
+.page-infirmier .project-link {
+    background-color: var(--infirmier-primary);
+}
+
+.page-projets .project-link {
+    background-color: var(--projets-primary);
+}
+
 .project-link:hover {
     background-color: var(--accent-color);
     transform: translateX(5px);
+}
+
+.page-infirmier .project-link:hover {
+    background-color: var(--infirmier-accent);
+}
+
+.page-projets .project-link:hover {
+    background-color: var(--projets-accent);
 }
 
 /* ==========================================
@@ -653,6 +836,14 @@ body {
 .cert-card:hover {
     border-color: var(--primary-color);
     transform: translateY(-5px);
+}
+
+.page-infirmier .cert-card:hover {
+    border-color: var(--infirmier-primary);
+}
+
+.page-projets .cert-card:hover {
+    border-color: var(--projets-primary);
 }
 
 .cert-icon {
