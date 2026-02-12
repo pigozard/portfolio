@@ -608,7 +608,7 @@ body {
 
 .timeline-item.left .timeline-content {
     width: 45%;
-    text-align: right;
+    text-align: left;
 }
 
 .timeline-item.left::after {
