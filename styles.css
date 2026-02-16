@@ -993,3 +993,157 @@ body {
     color: var(--projets-primary); /* rouge projets */
     font-style: normal;
 }
+
+/* ==========================================
+   CARTE E-SANTÉ — TERRACOTTA
+   ========================================== */
+:root {
+    --esante-primary: #C0622F;
+    --esante-secondary: #9E4F24;
+    --esante-light: #FDF0E8;
+}
+
+.timeline-item-esante {
+    margin-bottom: 4rem;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+.timeline-item-esante::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--esante-primary);
+    border: 4px solid var(--light-color);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 0 4px rgba(192,98,47,0.2);
+}
+.timeline-item-esante::after {
+    content: '';
+    position: absolute;
+    left: 45%;
+    top: 35px;
+    width: 5%;
+    height: 2px;
+    background-color: var(--esante-primary);
+    z-index: 2;
+}
+.timeline-content-esante {
+    width: 45%;
+    background-color: var(--light-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 2px dashed var(--esante-primary);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+.timeline-content-esante::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--esante-primary), #D4855A);
+}
+.timeline-content-esante:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+}
+.timeline-date-esante {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--esante-primary);
+    color: var(--light-color);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+.badge-conception {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--esante-light);
+    color: var(--esante-primary);
+    border: 1px solid var(--esante-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+}
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--esante-primary);
+    animation: pulse 2s infinite;
+    display: inline-block;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+}
+.project-type-esante {
+    color: var(--esante-primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+.tech-tag-esante {
+    padding: 0.4rem 1rem;
+    background-color: var(--esante-light);
+    color: var(--esante-primary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.tech-tag-flou {
+    padding: 0.4rem 1rem;
+    background-color: var(--gray-light);
+    color: var(--gray-medium);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    filter: blur(3px);
+    user-select: none;
+    opacity: 0.5;
+}
+.probleme-box {
+    background-color: var(--esante-light);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-top: 1rem;
+}
+.probleme-box h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--esante-primary);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.probleme-box ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.probleme-box li {
+    font-size: 0.85rem;
+    color: var(--esante-primary);
+    padding-left: 1.2rem;
+    position: relative;
+}
+.probleme-box li::before { content: '✓'; position: absolute; left: 0; font-weight: 700; }
+
+@media (max-width: 968px) {
+    .timeline-item-esante { display: block; padding-left: 80px; }
+    .timeline-item-esante::before { left: 30px; transform: translateX(-50%); }
+    .timeline-item-esante::after { left: 40px; width: 30px; }
+    .timeline-content-esante { width: 100%; }
+}
