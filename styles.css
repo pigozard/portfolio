@@ -963,3 +963,33 @@ body {
         font-size: 2rem;
     }
 }
+.chiffres-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: center; /* centre les 2 cartes sur la hauteur */
+}
+
+.chiffre-card .nombre {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    line-height: 1.2;
+    margin-bottom: 0.2rem;
+}
+
+.narrative-texte p {
+    color: var(--gray-medium);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+.mot-terrain {
+    color: var(--infirmier-primary); /* vert parcours */
+    font-style: normal;
+}
+
+.mot-code {
+    color: var(--projets-primary); /* rouge projets */
+    font-style: normal;
+}
