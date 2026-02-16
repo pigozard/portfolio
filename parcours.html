@@ -5,9 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parcours Infirmier - Pierre Gozard</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* DU ETP distinction */
+        .distinction {
+            background: linear-gradient(135deg, var(--infirmier-primary), #3d5c4d);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--light-color);
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        .distinction-icone { font-size: 4rem; flex-shrink: 0; }
+        .distinction-texte h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .distinction-texte p { opacity: 0.85; line-height: 1.7; font-size: 0.95rem; }
+        .mention-jury {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+
+        /* Grille formations */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+        }
+        .cert-card {
+            background-color: var(--gray-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        .cert-card:hover {
+            border-color: var(--infirmier-primary);
+            transform: translateY(-5px);
+        }
+        .cert-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .cert-card h3 { font-size: 0.95rem; color: var(--dark-color); margin-bottom: 0.4rem; }
+        .cert-card p { color: var(--gray-medium); font-size: 0.82rem; }
+
+        @media (max-width: 968px) {
+            .distinction { flex-direction: column; gap: 1.5rem; text-align: center; }
+        }
+    </style>
 </head>
 <body class="page-infirmier">
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">Pierre Gozard</a>
@@ -25,7 +77,6 @@
         </div>
     </nav>
 
-    <!-- Header -->
     <section class="page-header">
         <div class="container">
             <h1>Parcours Infirmier</h1>
@@ -33,11 +84,9 @@
         </div>
     </section>
 
-    <!-- Timeline Section -->
     <section class="timeline-section">
         <div class="timeline-container">
 
-            <!-- Expérience 1 - Droite -->
             <div class="timeline-item right">
                 <div class="timeline-content">
                     <div class="timeline-date">Juin 2023 - Aujourd'hui</div>
@@ -58,11 +107,9 @@
                         <span class="tech-tag">Formation</span>
                         <span class="tech-tag">Innovation</span>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Expérience 2 - Gauche -->
             <div class="timeline-item left">
                 <div class="timeline-content">
                     <div class="timeline-date">Février 2023 - Juin 2023</div>
@@ -83,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- Expérience 3 - Droite -->
             <div class="timeline-item right">
                 <div class="timeline-content">
                     <div class="timeline-date">Octobre 2021 - Février 2023</div>
@@ -105,7 +151,6 @@
                 </div>
             </div>
 
-            <!-- Expérience 4 - Gauche -->
             <div class="timeline-item left">
                 <div class="timeline-content">
                     <div class="timeline-date">Janvier 2021 - Octobre 2021</div>
@@ -126,7 +171,6 @@
                 </div>
             </div>
 
-            <!-- Expérience 5 - Droite -->
             <div class="timeline-item right">
                 <div class="timeline-content">
                     <div class="timeline-date">Septembre 2017 - Janvier 2021</div>
@@ -147,7 +191,6 @@
                 </div>
             </div>
 
-            <!-- Expérience 6 - Gauche -->
             <div class="timeline-item left">
                 <div class="timeline-content">
                     <div class="timeline-date">Mars 2016 - Septembre 2017</div>
@@ -168,7 +211,6 @@
                 </div>
             </div>
 
-            <!-- Expérience 7 - Droite -->
             <div class="timeline-item right">
                 <div class="timeline-content">
                     <div class="timeline-date">Mai 2013 - Mars 2016</div>
@@ -176,10 +218,9 @@
                     <p class="project-type">CH Montluçon</p>
                     <p class="project-description">
                         <strong>Unité d'hospitalisation complète adulte (17 lits)</strong><br>
-                        • Premiers pas en psychiatrie<br>
                         • Prise en charge globale en soins libres ou sans consentement<br>
                         • Soins relationnels, préventifs, éducatifs et techniques<br>
-                        • Apprentissage de la relation thérapeutique
+                        • Apprentissage et consolidation de la relation thérapeutique
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Psychiatrie</span>
@@ -192,125 +233,75 @@
         </div>
     </section>
 
-    <!-- Bénévolat Section -->
     <section class="skills">
         <div class="container">
             <h2 class="section-title">Engagement bénévole</h2>
             <div class="about-grid">
                 <div class="about-card">
                     <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     </div>
                     <h3>Volontaire CUMP33</h3>
-                    <p><strong>Mars 2022 - Aujourd'hui</strong><br>
-                    Cellule d'Urgence Médico-Psychologique de la Gironde. Prise en charge médico-psychologique urgente des victimes de catastrophes ou d'événements traumatiques collectifs.</p>
+                    <p><strong>Mars 2022 - Aujourd'hui</strong><br>Cellule d'Urgence Médico-Psychologique de la Gironde. Prise en charge médico-psychologique urgente des victimes de catastrophes ou d'événements traumatiques collectifs.</p>
                 </div>
                 <div class="about-card">
                     <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                     </div>
                     <h3>Volontaire Postvention</h3>
-                    <p><strong>Mars 2022 - Aujourd'hui</strong><br>
-                    Intervention auprès d'équipes de soins impactées par un deuil par suicide. Soutien psychologique et débriefing.</p>
+                    <p><strong>Mars 2022 - Aujourd'hui</strong><br>Intervention auprès d'équipes de soins impactées par un deuil par suicide. Soutien psychologique et débriefing.</p>
                 </div>
                 <div class="about-card">
                     <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                     </div>
                     <h3>Ex-volontaire CUMP74</h3>
-                    <p><strong>Février 2019 - Décembre 2020</strong><br>
-                    Cellule d'Urgence Médico-Psychologique de Haute-Savoie durant mon activité en région Auvergne-Rhône-Alpes.</p>
+                    <p><strong>Février 2019 - Décembre 2020</strong><br>Cellule d'Urgence Médico-Psychologique de Haute-Savoie durant mon activité en région Auvergne-Rhône-Alpes.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Compétences transversales -->
-    <section class="skills">
+    <section class="skills" style="background-color: var(--gray-light);">
         <div class="container">
             <h2 class="section-title">Compétences transversales</h2>
             <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Relation & Communication</h3>
-                    <ul>
-                        <li>Écoute active et empathie</li>
-                        <li>Communication thérapeutique</li>
-                        <li>Gestion des conflits</li>
-                        <li>Travail en équipe pluridisciplinaire</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Coordination & Organisation</h3>
-                    <ul>
-                        <li>Gestion de projets en santé</li>
-                        <li>Coordination de parcours de soins</li>
-                        <li>Priorisation et gestion du temps</li>
-                        <li>Traçabilité et documentation</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Pédagogie & Formation</h3>
-                    <ul>
-                        <li>Éducation thérapeutique du patient</li>
-                        <li>Animation d'ateliers collectifs</li>
-                        <li>Formation des professionnels</li>
-                        <li>Adaptation pédagogique</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Analyse & Amélioration</h3>
-                    <ul>
-                        <li>Évaluation de pratiques</li>
-                        <li>Démarche qualité</li>
-                        <li>Analyse de besoins</li>
-                        <li>Innovation en santé</li>
-                    </ul>
-                </div>
+                <div class="skill-category"><h3>Relation & Communication</h3><ul><li>Écoute active et empathie</li><li>Communication thérapeutique</li><li>Gestion des conflits</li><li>Travail en équipe pluridisciplinaire</li></ul></div>
+                <div class="skill-category"><h3>Coordination & Organisation</h3><ul><li>Gestion de projets en santé</li><li>Coordination de parcours de soins</li><li>Priorisation et gestion du temps</li><li>Traçabilité et documentation</li></ul></div>
+                <div class="skill-category"><h3>Pédagogie & Formation</h3><ul><li>Éducation thérapeutique du patient</li><li>Animation d'ateliers collectifs</li><li>Formation des professionnels</li><li>Adaptation pédagogique</li></ul></div>
+                <div class="skill-category"><h3>Analyse & Amélioration</h3><ul><li>Évaluation de pratiques</li><li>Démarche qualité</li><li>Analyse de besoins</li><li>Innovation en santé</li></ul></div>
             </div>
         </div>
     </section>
 
-    <!-- Certifications -->
     <section class="certifications">
         <div class="container">
             <h2 class="section-title">Formations & Certifications</h2>
-            <div class="cert-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">💻</div>
-                    <h3>RNCP39261 Développeur Web</h3>
-                    <p>Le Wagon - Octobre - Décembre 2025</p>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon">🏥</div>
-                    <h3>DU Éducation Thérapeutique</h3>
-                    <p>Université de Bordeaux - 2023-2024<br>Mention : Félicitations du jury</p>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon">🎓</div>
-                    <h3>Diplôme d'État Infirmier</h3>
-                    <p>IFSI de Montluçon - 2013</p>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon">🧠</div>
-                    <h3>Formation CUMP</h3>
-                    <p>Cellule d'Urgence Médico-Psychologique - Formation continue</p>
+
+            <div class="distinction">
+                <div class="distinction-icone">🏆</div>
+                <div class="distinction-texte">
+                    <h3>DU Éducation Thérapeutique du Patient</h3>
+                    <p>Université de Bordeaux · 2023–2024<br>
+                    <span class="mention-jury">🎓 Mention : Félicitations du jury</span>
                 </div>
             </div>
+
+            <div class="cert-grid">
+            <div class="cert-card"><div class="cert-icon">💻</div><h3>RNCP39261 Développeur Web</h3><p>Le Wagon · 2025</p></div>
+            <div class="cert-card"><div class="cert-icon">🧘</div><h3>Mindfulness & Méditation</h3><p>Pleine conscience · 2022</p></div>
+            <div class="cert-card"><div class="cert-icon">📞</div><h3>Formation Répondant 3114</h3><p>Prévention suicide · 2021</p></div>
+            <div class="cert-card"><div class="cert-icon">🚨</div><h3>CUMP Niveau 2</h3><p>2020</p></div>
+            <div class="cert-card"><div class="cert-icon">🗣️</div><h3>Groupe de parole · CUMP Niv.1</h3><p>2019</p></div>
+            <div class="cert-card"><div class="cert-icon">🛡️</div><h3>APIC</h3><p>Intervention Contrôlée · 2018</p></div>
+            <div class="cert-card"><div class="cert-icon">💬</div><h3>Entretien Infirmier Niv.1</h3><p>Gestion du stress · 2017</p></div>
+            <div class="cert-card"><div class="cert-icon">🤝</div><h3>Médiation Thérapeutique</h3><p>2014</p></div>
+            <div class="cert-card"><div class="cert-icon">🎓</div><h3>Diplôme d'État Infirmier</h3><p>IFSI de Montluçon · 2013</p></div>
+            <div class="cert-card"><div class="cert-icon">📚</div><h3>Réactualisation Psychiatrie</h3><p>2013</p></div>
+        </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 Pierre Gozard - Infirmier & Développeur Full Stack</p>
