@@ -7,10 +7,14 @@ const navMenu   = document.querySelector('.nav-menu');
 const navLinks  = document.querySelectorAll('.nav-link');
 
 if (hamburger) {
+  // Cache le menu au clavier quand il est fermé
+  navMenu.setAttribute('aria-hidden', 'true');
+
   hamburger.addEventListener('click', () => {
     const isOpen = navMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
     hamburger.setAttribute('aria-expanded', isOpen);
+    navMenu.setAttribute('aria-hidden', !isOpen);
   });
 }
 
@@ -19,6 +23,7 @@ navLinks.forEach(link => {
     navMenu.classList.remove('active');
     hamburger?.classList.remove('active');
     hamburger?.setAttribute('aria-expanded', 'false');
+    navMenu.setAttribute('aria-hidden', 'true');
   });
 });
 

@@ -1108,6 +1108,13 @@ body {
   font-weight: 600;
   margin-top: 0.8rem;
 }
+:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+
 
 /* ==========================================
    RESPONSIVE
@@ -1235,4 +1242,25 @@ body {
   .timeline-content-esante {
     width: 100%;
   }
+  /* Focus visible pour navigation clavier */
+:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.page-infirmier :focus-visible { outline-color: var(--infirmier-primary); }
+.page-projets :focus-visible   { outline-color: var(--projets-primary); }
+
+/* Correction profile-circle sur mobile */
+@media (max-width: 968px) {
+  .profile-circle {
+    max-width: 250px;
+  }
+
+  .timeline-item.left,
+  .timeline-item.right {
+    padding-left: 60px; /* réduit de 80px à 60px */
+  }
+}
 }
