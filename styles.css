@@ -1169,6 +1169,7 @@ body {
     justify-content: center;
   }
 
+
   .narrative-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1190,6 +1191,11 @@ body {
 
   .section-title {
     font-size: 2rem;
+  }
+
+    .hero-badge.gris {
+    flex-basis: 100%;
+    text-align: center;
   }
 
   /* Timeline responsive — tout à gauche sur mobile */
@@ -1267,4 +1273,3 @@ body {
 
 .page-infirmier :focus-visible { outline-color: var(--infirmier-primary); }
 .page-projets :focus-visible   { outline-color: var(--projets-primary); }
-
