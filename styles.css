@@ -1262,5 +1262,8 @@ body {
   .timeline-item.right {
     padding-left: 60px; /* réduit de 80px à 60px */
   }
+   .hero-badges {
+    justify-content: center;
+  }
 }
 }
