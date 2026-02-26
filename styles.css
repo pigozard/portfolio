@@ -1170,6 +1170,12 @@ body {
   }
 
 
+    .hero-badge.gris {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+
   .narrative-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1193,10 +1199,6 @@ body {
     font-size: 2rem;
   }
 
-    .hero-badge.gris {
-    flex-basis: 100%;
-    text-align: center;
-  }
 
   /* Timeline responsive — tout à gauche sur mobile */
   .timeline-container::before {
