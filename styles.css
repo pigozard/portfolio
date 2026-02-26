@@ -1173,6 +1173,8 @@ body {
     .hero-badge.gris {
     flex-basis: 100%;
     text-align: center;
+    width: fit-content;
+    margin: 0 auto;
   }
 
 
