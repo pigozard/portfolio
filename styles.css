@@ -1115,10 +1115,26 @@ body {
 }
 
 
-
 /* ==========================================
    RESPONSIVE
    ========================================== */
+
+/* Badges hero : 1 ligne si ça tient (≥540px), sinon 3 lignes (jamais 2+1) */
+@media (min-width: 540px) and (max-width: 968px) {
+  .hero-badges {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+/* Petits mobiles et tous les appareils mobiles */
 @media (max-width: 968px) {
   .hamburger {
     display: flex;
@@ -1164,19 +1180,12 @@ body {
     justify-content: center;
   }
 
-  /* CORRECTION: Centre les badges hero sur mobile */
+  /* Badges en colonne par défaut sur mobile */
   .hero-badges {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
-
-
-    .hero-badge.gris {
-    flex-basis: 100%;
-    text-align: center;
-    width: fit-content;
-    margin: 0 auto;
-  }
-
 
   .narrative-grid {
     grid-template-columns: 1fr;
@@ -1201,7 +1210,6 @@ body {
     font-size: 2rem;
   }
 
-
   /* Timeline responsive — tout à gauche sur mobile */
   .timeline-container::before {
     left: 30px;
@@ -1219,7 +1227,7 @@ body {
   .timeline-item.left,
   .timeline-item.right {
     display: block;
-    padding-left: 80px;
+    padding-left: 60px;
   }
 
   .timeline-item.left .timeline-content,
@@ -1261,14 +1269,9 @@ body {
   .profile-circle {
     max-width: 250px;
   }
-
-  .timeline-item.left,
-  .timeline-item.right {
-    padding-left: 60px; /* réduit de 80px à 60px */
-  }
 }
 
-/* Focus visible pour navigation clavier - EN DEHORS du media query */
+/* Focus visible pour navigation clavier */
 :focus-visible {
   outline: 3px solid var(--primary-color);
   outline-offset: 3px;
