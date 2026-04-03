@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brief Projet — Pierre Gozard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Fraunces:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F8F6;
+      --surface: #FFFFFF;
+      --border: #DDD9D3;
+      --border-focus: #1A1A1A;
+      --text: #1A1A1A;
+      --text-muted: #7A7672;
+      --accent: #1A1A1A;
+      --accent-hover: #333;
+      --success: #2D6A4F;
+      --success-bg: #D8F3DC;
+      --warning: #B8860B;
+      --warning-bg: #FFF8E7;
+      --section-num: #C4C1BB;
+      --radius: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 6rem;
+    }
+
+    /* === HEADER === */
+    .page-header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(248,248,246,0.92);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-brand h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-brand span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .header-step {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+
+    /* === PROGRESS === */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 200;
+      transition: width 0.4s ease;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* === MAIN === */
+    .main-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    .intro {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .intro h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.03em;
+    }
+
+    .intro p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      max-width: 600px;
+    }
+
+    .intro .tip {
+      margin-top: 1rem;
+      background: var(--warning-bg);
+      border-left: 3px solid var(--warning);
+      padding: 0.65rem 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.82rem;
+      color: #5D4E37;
+    }
+
+    /* === SECTIONS === */
+    .form-section {
+      margin-bottom: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-number {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--section-num);
+      line-height: 1;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .section-context {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* === FIELDS === */
+    .field-group { margin-bottom: 1.2rem; }
+    .field-group:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      display: block;
+      margin-top: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="date"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(26,26,26,0.06);
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A7672' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      padding-right: 2.2rem;
+    }
+
+    /* Toggle pill buttons */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.3rem;
+    }
+
+    .pill-group label {
+      font-weight: 400;
+      font-size: 0.82rem;
+      padding: 0.4rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .pill-group label:hover { border-color: var(--text-muted); }
+
+    .pill-group label.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .pill-group input { display: none; }
+
+    /* Two columns */
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .two-cols { grid-template-columns: 1fr; }
+      .main-container { padding: 1.5rem 1rem 3rem; }
+      .form-section { padding: 1.25rem; }
+    }
+
+    /* Required */
+    .required::after { content: " *"; color: #C0392B; font-weight: 700; }
+
+    /* Conditional */
+    .conditional { display: none; }
+    .conditional.visible { display: block; }
+
+    /* Section divider inside card */
+    .field-divider {
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 1.25rem 0;
+    }
+
+    /* === ACTION BAR === */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(248,248,246,0.95);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      z-index: 100;
+    }
+
+    .action-bar-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.6rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #245A42; }
+
+    /* === MODAL === */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+      padding: 1.15rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .modal-header h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; }
+    .modal-close { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); padding: 0.25rem; }
+    .modal-body { padding: 1.5rem; }
+
+    .yaml-output {
+      background: #1A1A1A;
+      color: #E8E6E3;
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.75rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+
+    .modal-actions {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.6rem;
+      justify-content: flex-end;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--success);
+      color: white;
+      padding: 0.55rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 400;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+   <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Pierre Gozard</a>
+      <ul class="nav-menu">
+        <li><a href="index.html"    class="nav-link active">Accueil</a></li>
+        <li><a href="projets.html"  class="nav-link">Projets Numériques</a></li>
+        <li><a href="parcours.html" class="nav-link">Parcours Infirmier</a></li>
+        <li><a href="brief.html" class="nav-link">Espace Projet</a></li>
+        <li><a href="#contact"      class="nav-link">Contact</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+    <section class="page-header">
+    <div class="container">
+      <h1>Projets </h1>
+      <p>A votre écoute</p>
+    </div>
+  </section>
+
+<!-- ═══════ LOCK SCREEN ═══════ -->
+<div id="lockScreen" style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg); padding:2rem;">
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2.5rem; max-width:380px; width:100%; text-align:center; box-shadow:var(--shadow-md);">
+    <div style="font-family:'Fraunces',serif; font-size:1.4rem; font-weight:700; margin-bottom:0.25rem;">Pierre Gozard</div>
+    <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:2rem;">Espace projet</div>
+    <input type="password" id="lockPassword" placeholder="Mot de passe" style="width:100%; padding:0.7rem 1rem; font-family:'DM Sans',sans-serif; font-size:0.9rem; border:1.5px solid var(--border); border-radius:var(--radius); outline:none; text-align:center; margin-bottom:0.75rem;" onkeydown="if(event.key==='Enter')unlock()">
+    <div id="lockError" style="color:#C0392B; font-size:0.78rem; margin-bottom:0.75rem; display:none;">Mot de passe incorrect</div>
+    <button onclick="unlock()" style="width:100%; padding:0.65rem; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600; background:var(--accent); color:white; border:none; border-radius:var(--radius); cursor:pointer;">Accéder</button>
+  </div>
+</div>
+
+<!-- ═══════ APP CONTENT (hidden until unlocked) ═══════ -->
+<div id="appContent" style="display:none;">
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="page-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <h1>Pierre Gozard</h1>
+      <span>Dev Full-Stack · Infirmier DE</span>
+    </div>
+    <div class="header-step" id="headerStep">0 / 9 sections</div>
+  </div>
+</header>
+
+<main class="main-container">
+  <div class="intro">
+    <h2>Brief projet</h2>
+    <p>Questionnaire de cadrage à remplir lors du premier échange avec un client ou pour formaliser un nouveau projet. L'objectif : tout poser à plat dès le départ pour éviter les allers-retours.</p>
+    <div class="tip">💡 Soyez concret dans les réponses. Des exemples du quotidien valent mieux que des descriptions vagues. Ce document servira de base au compte-rendu client et au prompt de développement.</div>
+  </div>
+
+  <form id="briefForm" novalidate>
+
+    <!-- ═══════ 01 — CONTACT ═══════ -->
+    <div class="form-section" data-section="1">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <span class="section-title">Qui êtes-vous ?</span>
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label class="required" for="clientName">Nom / Prénom</label>
+          <input type="text" id="clientName" name="clientName" required>
+        </div>
+        <div class="field-group">
+          <label for="clientRole">Votre rôle / Fonction</label>
+          <input type="text" id="clientRole" name="clientRole" placeholder="Ex : infirmier libéral, kiné, médecin généraliste, gérant d'officine…">
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="clientStructure">Structure / Établissement</label>
+        <input type="text" id="clientStructure" name="clientStructure" placeholder="Ex : cabinet infirmier, MSP, clinique, association, auto-entrepreneur…">
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label for="clientEmail">Email</label>
+          <input type="email" id="clientEmail" name="clientEmail">
+        </div>
+        <div class="field-group">
+          <label for="clientPhone">Téléphone</label>
+          <input type="tel" id="clientPhone" name="clientPhone">
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="rdvDate">Date du RDV</label>
+        <input type="date" id="rdvDate" name="rdvDate">
+      </div>
+    </div>
+
+    <!-- ═══════ 02 — PROBLÈME & CONTEXTE ═══════ -->
+    <div class="form-section" data-section="2">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <span class="section-title">Le problème à résoudre</span>
+      </div>
+      <div class="section-context">Avant de parler de solution, il faut bien comprendre la situation actuelle et ce qui coince.</div>
+
+      <div class="field-group">
+        <label class="required" for="problemToday">Comment ça se passe aujourd'hui, sans cet outil ?
+          <span class="hint">Décrivez le fonctionnement actuel, même bricolé (papier, Excel, bouche-à-oreille, téléphone…)</span>
+        </label>
+        <textarea id="problemToday" name="problemToday" rows="4" required placeholder="Ex : Les patients appellent le cabinet pour prendre RDV, la secrétaire note sur un agenda papier, et on se retrouve souvent avec des créneaux en double…"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="required" for="problemPain">Qu'est-ce qui pose problème dans cette façon de faire ?
+          <span class="hint">Perte de temps, erreurs, oublis, image peu professionnelle…</span>
+        </label>
+        <textarea id="problemPain" name="problemPain" rows="3" required placeholder="Ex : On rate des patients qui n'arrivent pas à joindre le cabinet, la secrétaire passe ses matinées au téléphone, et notre planning n'est pas à jour…"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="problemIdeal">Si tout marchait parfaitement, ça donnerait quoi ?
+          <span class="hint">Décrivez le résultat rêvé, sans se soucier de la faisabilité</span>
+        </label>
+        <textarea id="problemIdeal" name="problemIdeal" rows="3" placeholder="Ex : Les patients réservent en ligne en 2 clics, on voit les RDV en temps réel sur nos téléphones, et on reçoit un rappel la veille…"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="problemTrigger">Pourquoi ce projet maintenant ?
+          <span class="hint">Un événement déclencheur, un ras-le-bol, une opportunité, un changement dans l'activité…</span>
+        </label>
+        <textarea id="problemTrigger" name="problemTrigger" rows="2" placeholder="Ex : On ouvre un deuxième cabinet le mois prochain et on ne peut pas continuer avec l'agenda papier…"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════ 03 — OBJECTIFS ═══════ -->
+    <div class="form-section" data-section="3">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <span class="section-title">Objectifs concrets</span>
+      </div>
+      <div class="section-context">Comprendre ce que le client considérera comme une réussite. Des objectifs mesurables = de meilleurs choix techniques.</div>
+
+      <div class="field-group">
+        <label class="required" for="goalMain">Quel est l'objectif principal de ce projet ?
+          <span class="hint">Un seul objectif prioritaire, en une phrase</span>
+        </label>
+        <input type="text" id="goalMain" name="goalMain" required placeholder="Ex : Avoir un site pro pour que les patients trouvent mes horaires et prennent RDV en ligne">
+      </div>
+      <div class="field-group">
+        <label for="goalSecondary">Objectifs secondaires
+          <span class="hint">Les autres bénéfices attendus</span>
+        </label>
+        <textarea id="goalSecondary" name="goalSecondary" rows="3" placeholder="Ex : Réduire les appels au cabinet, donner une image plus moderne, afficher les spécialités et les tarifs…"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="goalSuccess">Comment on saura que le projet est réussi ?
+          <span class="hint">Donnez des indicateurs concrets si possible</span>
+        </label>
+        <textarea id="goalSuccess" name="goalSuccess" rows="2" placeholder="Ex : Moins de 5 appels/jour pour les RDV, les patients trouvent les infos sans appeler, site visible sur Google…"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════ 04 — UTILISATEURS ═══════ -->
+    <div class="form-section" data-section="4">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <span class="section-title">Les utilisateurs</span>
+      </div>
+      <div class="section-context">Qui va utiliser l'outil, à quel point ils sont à l'aise avec le numérique. Ça conditionne toute l'UX.</div>
+
+      <div class="field-group">
+        <label>Qui utilisera l'outil au quotidien ?</label>
+        <div class="pill-group">
+          <label><input type="checkbox" name="users" value="patients"><span>Patients</span></label>
+          <label><input type="checkbox" name="users" value="soignants"><span>Soignants (IDE, médecins…)</span></label>
+          <label><input type="checkbox" name="users" value="administratifs"><span>Administratifs / Secrétariat</span></label>
+          <label><input type="checkbox" name="users" value="encadrement"><span>Encadrement / Direction</span></label>
+          <label><input type="checkbox" name="users" value="grand_public"><span>Grand public</span></label>
+          <label><input type="checkbox" name="users" value="partenaires"><span>Partenaires externes</span></label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="usersProfile">Profil type des utilisateurs principaux
+          <span class="hint">Âge moyen, aisance numérique, équipement (smartphone, PC au poste…)</span>
+        </label>
+        <textarea id="usersProfile" name="usersProfile" rows="3" placeholder="Ex : Patients entre 40 et 70 ans, pas très à l'aise avec internet, consultent surtout sur smartphone. L'équipe soignante utilise un PC au cabinet."></textarea>
+      </div>
+      <div class="field-group">
+        <label for="usersCount">Nombre approximatif d'utilisateurs</label>
+        <input type="text" id="usersCount" name="usersCount" placeholder="Ex : 3 soignants au cabinet + ~150 patients actifs">
+      </div>
+      <div class="field-group">
+        <label>Accessibilité : besoins particuliers ?</label>
+        <div class="pill-group">
+          <label><input type="checkbox" name="accessibility" value="gros_texte"><span>Texte agrandi</span></label>
+          <label><input type="checkbox" name="accessibility" value="simple"><span>Interface très simplifiée</span></label>
+          <label><input type="checkbox" name="accessibility" value="contraste"><span>Contraste élevé</span></label>
+          <label><input type="checkbox" name="accessibility" value="lecteur_ecran"><span>Lecteur d'écran</span></label>
+          <label><input type="checkbox" name="accessibility" value="multilingue"><span>Multilingue</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 05 — TYPE DE LIVRABLE ═══════ -->
+    <div class="form-section" data-section="5">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <span class="section-title">Ce qu'il faut construire</span>
+      </div>
+      <div class="section-context">Traduire le besoin du client en type de livrable. Si le client ne sait pas, partir du problème (section 02) pour proposer.</div>
+
+      <div class="field-group">
+        <label class="required" for="projectType">Ça ressemble le plus à quoi ?</label>
+        <select id="projectType" name="projectType" required>
+          <option value="">— Choisir —</option>
+          <option value="site_info">Un site pour informer / présenter (type site vitrine)</option>
+          <option value="outil_interne">Un outil pour mon équipe (planning, suivi, tableaux de bord…)</option>
+          <option value="app_patient">Un outil pour les patients (prise de RDV, questionnaires…)</option>
+          <option value="plateforme">Une plateforme avec comptes utilisateurs</option>
+          <option value="formulaire">Un formulaire / questionnaire en ligne</option>
+          <option value="refonte">Refaire un site ou outil existant</option>
+          <option value="ne_sait_pas">Je ne sais pas encore — j'ai juste un besoin</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="field-group conditional" id="typeOtherWrap">
+        <label for="projectTypeOther">Précisez</label>
+        <input type="text" id="projectTypeOther" name="projectTypeOther">
+      </div>
+
+      <hr class="field-divider">
+
+      <div class="field-group">
+        <label for="projectPages">Quelles « pages » ou « écrans » imaginez-vous ?
+          <span class="hint">Même approximatif. Ex : une page d'accueil, une page par programme, un formulaire d'inscription…</span>
+        </label>
+        <textarea id="projectPages" name="projectPages" rows="4" placeholder="Ex :&#10;- Page d'accueil avec présentation du cabinet&#10;- Page « L'équipe » avec photo et spécialités&#10;- Page des tarifs et des horaires&#10;- Formulaire de prise de RDV&#10;- Page contact avec plan d'accès"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Fonctionnalités dont vous avez besoin</label>
+        <div class="pill-group">
+          <label><input type="checkbox" name="features" value="formulaire_contact"><span>Formulaire de contact</span></label>
+          <label><input type="checkbox" name="features" value="prise_rdv"><span>Prise de RDV en ligne</span></label>
+          <label><input type="checkbox" name="features" value="inscription"><span>Inscription en ligne</span></label>
+          <label><input type="checkbox" name="features" value="comptes_utilisateurs"><span>Comptes utilisateurs</span></label>
+          <label><input type="checkbox" name="features" value="questionnaire"><span>Questionnaire / Évaluation</span></label>
+          <label><input type="checkbox" name="features" value="tableau_bord"><span>Tableau de bord / Stats</span></label>
+          <label><input type="checkbox" name="features" value="planning"><span>Planning / Calendrier</span></label>
+          <label><input type="checkbox" name="features" value="documents"><span>Partage de documents</span></label>
+          <label><input type="checkbox" name="features" value="notifications"><span>Notifications / Rappels</span></label>
+          <label><input type="checkbox" name="features" value="carte"><span>Carte / Localisation</span></label>
+          <label><input type="checkbox" name="features" value="recherche"><span>Moteur de recherche</span></label>
+          <label><input type="checkbox" name="features" value="export"><span>Export de données (Excel, PDF…)</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="featuresOther">Autres besoins spécifiques</label>
+        <textarea id="featuresOther" name="featuresOther" rows="2" placeholder="Ex : Envoi automatique de SMS de rappel avant les RDV, espace patient sécurisé…"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════ 06 — DONNÉES & RÉGLEMENTATION ═══════ -->
+    <div class="form-section" data-section="6">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <span class="section-title">Données & Réglementation</span>
+      </div>
+      <div class="section-context">Si le projet touche à des données personnelles ou de santé, ça change les règles du jeu. Mieux vaut le savoir dès maintenant.</div>
+
+      <div class="field-group">
+        <label>L'outil va-t-il manipuler des données de santé ?
+          <span class="hint">Noms de patients, pathologies, traitements, résultats d'évaluations…</span>
+        </label>
+        <div class="pill-group">
+          <label><input type="radio" name="healthData" value="oui"><span>Oui</span></label>
+          <label><input type="radio" name="healthData" value="non"><span>Non</span></label>
+          <label><input type="radio" name="healthData" value="peut_etre"><span>Peut-être / Je ne suis pas sûr</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Des données personnelles sont-elles collectées ?
+          <span class="hint">Nom, email, téléphone, date de naissance, photo…</span>
+        </label>
+        <div class="pill-group">
+          <label><input type="radio" name="personalData" value="oui"><span>Oui</span></label>
+          <label><input type="radio" name="personalData" value="non"><span>Non</span></label>
+          <label><input type="radio" name="personalData" value="indetermine"><span>À déterminer</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Votre structure a-t-elle des contraintes spécifiques ?</label>
+        <div class="pill-group">
+          <label><input type="checkbox" name="regulations" value="hds"><span>Hébergement HDS obligatoire</span></label>
+          <label><input type="checkbox" name="regulations" value="rgpd"><span>RGPD / DPO impliqué</span></label>
+          <label><input type="checkbox" name="regulations" value="dsi"><span>Validation DSI requise</span></label>
+          <label><input type="checkbox" name="regulations" value="ans"><span>Référentiels ANS / Ségur</span></label>
+          <label><input type="checkbox" name="regulations" value="aucune"><span>Aucune contrainte identifiée</span></label>
+          <label><input type="checkbox" name="regulations" value="ne_sait_pas"><span>Je ne sais pas</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="dataIntegration">Connexion avec des systèmes existants ?
+          <span class="hint">Logiciel de cabinet, agenda Doctolib, Outlook, logiciel de compta, autre…</span>
+        </label>
+        <textarea id="dataIntegration" name="dataIntegration" rows="2" placeholder="Ex : On utilise Doctolib pour les RDV, ce serait bien que ça s'intègre. On a aussi un logiciel de facturation."></textarea>
+      </div>
+    </div>
+
+    <!-- ═══════ 07 — DESIGN & CONTENU ═══════ -->
+    <div class="form-section" data-section="7">
+      <div class="section-header">
+        <span class="section-number">07</span>
+        <span class="section-title">Apparence & Contenu</span>
+      </div>
+
+      <div class="field-group">
+        <label for="designStyle">Quelle ambiance souhaitez-vous ?
+          <span class="hint">Ex : sobre et rassurant, coloré et dynamique, institutionnel…</span>
+        </label>
+        <input type="text" id="designStyle" name="designStyle" placeholder="Ex : Quelque chose de clair, rassurant, pas trop médical">
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label for="designColors">Couleurs / Charte graphique existante ?</label>
+          <input type="text" id="designColors" name="designColors" placeholder="Ex : On a un logo bleu et orange">
+        </div>
+        <div class="field-group">
+          <label for="designLogo">Logo ?</label>
+          <select id="designLogo" name="designLogo">
+            <option value="">— Sélectionner —</option>
+            <option value="oui_fourni">Oui, je le fournirai</option>
+            <option value="a_creer">Non, à créer</option>
+            <option value="pas_besoin">Pas besoin</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="designRefs">Avez-vous vu des sites ou outils qui vous plaisent ?
+          <span class="hint">Collez des URLs ou décrivez ce qui vous a plu (même hors santé)</span>
+        </label>
+        <textarea id="designRefs" name="designRefs" rows="2" placeholder="Ex : J'aime bien le site de Doctolib, c'est simple et efficace"></textarea>
+      </div>
+
+      <hr class="field-divider">
+
+      <div class="field-group">
+        <label>Qui fournit les textes ?</label>
+        <div class="pill-group">
+          <label><input type="radio" name="contentText" value="client"><span>Moi / Mon équipe</span></label>
+          <label><input type="radio" name="contentText" value="pierre"><span>Pierre rédige</span></label>
+          <label><input type="radio" name="contentText" value="mixte"><span>On fait ensemble</span></label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Et les visuels (photos, illustrations) ?</label>
+        <div class="pill-group">
+          <label><input type="radio" name="contentImages" value="fourni"><span>Je les fournis</span></label>
+          <label><input type="radio" name="contentImages" value="stock"><span>Banque d'images</span></label>
+          <label><input type="radio" name="contentImages" value="ia"><span>Générées par IA</span></label>
+          <label><input type="radio" name="contentImages" value="mixte"><span>Mixte</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 08 — TECHNIQUE & HÉBERGEMENT ═══════ -->
+    <div class="form-section" data-section="8">
+      <div class="section-header">
+        <span class="section-number">08</span>
+        <span class="section-title">Technique & Hébergement</span>
+      </div>
+      <div class="section-context">Domaine, hébergement, existant technique. À adapter selon le niveau du client — remplir ce qu'on sait, le reste se précisera.</div>
+
+      <div class="two-cols">
+        <div class="field-group">
+          <label for="techDomain">Nom de domaine (adresse du site)</label>
+          <select id="techDomain" name="techDomain">
+            <option value="">— Sélectionner —</option>
+            <option value="deja_achete">Déjà acheté</option>
+            <option value="a_acheter">À acheter</option>
+            <option value="structure">La structure s'en occupe</option>
+            <option value="ne_sait_pas">Je ne sais pas</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="techDomainName">Adresse souhaitée</label>
+          <input type="text" id="techDomainName" name="techDomainName" placeholder="Ex : cabinet-dupont.fr">
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="techExisting">Existe-t-il déjà un site ou un outil en place ?</label>
+        <textarea id="techExisting" name="techExisting" rows="2" placeholder="Ex : On a une page Facebook mais pas de vrai site, ou un vieux site qui n'est plus à jour…"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="techBudgetHost">Budget mensuel acceptable pour l'hébergement ?</label>
+        <select id="techBudgetHost" name="techBudgetHost">
+          <option value="">— Sélectionner —</option>
+          <option value="gratuit">Gratuit si possible</option>
+          <option value="<20">&lt; 20 €/mois</option>
+          <option value="20-50">20 – 50 €/mois</option>
+          <option value=">50">&gt; 50 €/mois (HDS etc.)</option>
+          <option value="ne_sait_pas">Je ne sais pas</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ═══════ 09 — BUDGET, DÉLAI, AUTONOMIE ═══════ -->
+    <div class="form-section" data-section="9">
+      <div class="section-header">
+        <span class="section-number">09</span>
+        <span class="section-title">Budget, Délai & Après-livraison</span>
+      </div>
+
+      <div class="two-cols">
+        <div class="field-group">
+          <label for="projectBudget">Budget global du projet</label>
+          <select id="projectBudget" name="projectBudget">
+            <option value="">— Sélectionner —</option>
+            <option value="gratuit">Gratuit (entourage / bénévole)</option>
+            <option value="<500">&lt; 500 €</option>
+            <option value="500-2000">500 – 2 000 €</option>
+            <option value="2000-5000">2 000 – 5 000 €</option>
+            <option value=">5000">&gt; 5 000 €</option>
+            <option value="financement">Financement en cours (subvention, aide…)</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="projectDeadline">Échéance souhaitée</label>
+          <input type="date" id="projectDeadline" name="projectDeadline">
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="deadlineConstraint">Y a-t-il une contrainte forte sur cette date ?
+          <span class="hint">Événement, fin de financement, obligation institutionnelle…</span>
+        </label>
+        <input type="text" id="deadlineConstraint" name="deadlineConstraint" placeholder="Ex : Ouverture du nouveau cabinet le 1er septembre, il faut un site avant">
+      </div>
+
+      <hr class="field-divider">
+
+      <div class="field-group">
+        <label>Après la mise en ligne, qui mettra à jour le contenu ?</label>
+        <div class="pill-group">
+          <label><input type="radio" name="maintenance" value="client_autonome"><span>Moi / Mon équipe (en autonomie)</span></label>
+          <label><input type="radio" name="maintenance" value="pierre"><span>Pierre s'en occupe</span></label>
+          <label><input type="radio" name="maintenance" value="mixte"><span>Accompagnement au début, puis nous</span></label>
+          <label><input type="radio" name="maintenance" value="ne_sait_pas"><span>On verra</span></label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="formationNeeded">Une formation sera-t-elle nécessaire ?
+          <span class="hint">Pour vous ou votre équipe, pour prendre en main l'outil</span>
+        </label>
+        <div class="pill-group">
+          <label><input type="radio" name="formation" value="oui"><span>Oui, probablement</span></label>
+          <label><input type="radio" name="formation" value="non"><span>Non, on se débrouillera</span></label>
+          <label><input type="radio" name="formation" value="a_voir"><span>À voir selon la complexité</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Souhaitez-vous pouvoir modifier le site vous-même après livraison ?
+          <span class="hint">Ajouter des articles, changer des photos, mettre à jour les horaires, publier des actus…</span>
+        </label>
+        <div class="pill-group">
+          <label><input type="radio" name="autonomy" value="oui_tout"><span>Oui, je veux tout pouvoir modifier</span></label>
+          <label><input type="radio" name="autonomy" value="oui_partiel"><span>Juste certaines parties (articles, actus…)</span></label>
+          <label><input type="radio" name="autonomy" value="non"><span>Non, je préfère que Pierre gère</span></label>
+          <label><input type="radio" name="autonomy" value="ne_sait_pas"><span>Je ne sais pas encore</span></label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="autonomyDetails">Précisions sur l'autonomie souhaitée
+          <span class="hint">Quels contenus voudriez-vous pouvoir ajouter ou modifier seul(e) ?</span>
+        </label>
+        <textarea id="autonomyDetails" name="autonomyDetails" rows="2" placeholder="Ex : Pouvoir publier un article de blog par mois, changer les horaires du cabinet, ajouter des photos de l'équipe…"></textarea>
+      </div>
+
+      <hr class="field-divider">
+
+      <div class="field-group">
+        <label for="priorities">Top 3 de vos priorités
+          <span class="hint">Qu'est-ce qui compte le plus pour vous ? (rapidité, simplicité, design, budget, sécurité…)</span>
+        </label>
+        <textarea id="priorities" name="priorities" rows="3" placeholder="1. Que ce soit simple, même pour quelqu'un qui n'y connaît rien&#10;2. Que ce soit en ligne rapidement&#10;3. Que ça ne coûte pas trop cher à maintenir"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="notesExtra">Autre chose à ajouter ?
+          <span class="hint">Contraintes, craintes, idées, documents existants à partager…</span>
+        </label>
+        <textarea id="notesExtra" name="notesExtra" rows="3"></textarea>
+      </div>
+    </div>
+
+  </form>
+</main>
+
+<!-- ACTION BAR -->
+<div class="action-bar">
+  <div class="action-bar-inner">
+    <button class="btn btn-secondary" onclick="resetForm()">↺ Réinitialiser</button>
+    <button class="btn btn-primary" onclick="generateDocx()">📄 Télécharger le compte-rendu</button>
+  </div>
+</div>
+
+<!-- PROMPT MODAL -->
+<div class="modal-overlay" id="promptModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>⚡ Prompt projet — YAML optimisé</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <pre class="yaml-output" id="yamlOutput"></pre>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+      <button class="btn btn-success" onclick="copyPrompt()">📋 Copier</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // === CONDITIONAL ===
+  document.getElementById('projectType').addEventListener('change', function() {
+    document.getElementById('typeOtherWrap').classList.toggle('visible', this.value === 'autre');
+  });
+
+  // === PROGRESS ===
+  function updateProgress() {
+    const fields = document.querySelectorAll('#briefForm input[required], #briefForm textarea[required], #briefForm select[required]');
+    let filled = 0;
+    fields.forEach(f => { if (f.value.trim()) filled++; });
+    const pct = Math.round((filled / fields.length) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    // Count completed sections
+    const sections = document.querySelectorAll('.form-section');
+    let completedSections = 0;
+    sections.forEach(s => {
+      const inputs = s.querySelectorAll('input, textarea, select');
+      let hasFilled = false;
+      inputs.forEach(i => {
+        if (i.type === 'checkbox' || i.type === 'radio') {
+          if (i.checked) hasFilled = true;
+        } else if (i.value.trim()) hasFilled = true;
+      });
+      if (hasFilled) completedSections++;
+    });
+    document.getElementById('headerStep').textContent = completedSections + ' / ' + sections.length + ' sections';
+  }
+
+  document.getElementById('briefForm').addEventListener('input', updateProgress);
+  document.getElementById('briefForm').addEventListener('change', updateProgress);
+
+  // === PILL TOGGLE ===
+  document.querySelectorAll('.pill-group label').forEach(label => {
+    label.addEventListener('click', function(e) {
+      e.preventDefault();
+      const input = this.querySelector('input');
+      if (!input) return;
+
+      if (input.type === 'radio') {
+        if (this.classList.contains('active')) {
+          input.checked = false;
+          this.classList.remove('active');
+        } else {
+          const groupName = input.name;
+          document.querySelectorAll('input[name="' + groupName + '"]').forEach(r => {
+            r.checked = false;
+            if (r.closest('label')) r.closest('label').classList.remove('active');
+          });
+          input.checked = true;
+          this.classList.add('active');
+        }
+      } else if (input.type === 'checkbox') {
+        input.checked = !input.checked;
+        this.classList.toggle('active', input.checked);
+      }
+    });
+  });
+
+  // === DATA COLLECTOR ===
+  function collectData() {
+    const form = document.getElementById('briefForm');
+    const get = id => (form.querySelector('#' + id)?.value || '').trim();
+    const getChecked = name => [...form.querySelectorAll('input[name="' + name + '"]:checked')].map(i => i.value);
+    const getRadio = name => (form.querySelector('input[name="' + name + '"]:checked')?.value || '');
+
+    return {
+      client: { nom: get('clientName'), role: get('clientRole'), structure: get('clientStructure'), email: get('clientEmail'), telephone: get('clientPhone'), date_rdv: get('rdvDate') },
+      probleme: { aujourdhui: get('problemToday'), frustration: get('problemPain'), ideal: get('problemIdeal'), declencheur: get('problemTrigger') },
+      objectifs: { principal: get('goalMain'), secondaires: get('goalSecondary'), succes: get('goalSuccess') },
+      utilisateurs: { types: getChecked('users'), profil: get('usersProfile'), nombre: get('usersCount'), accessibilite: getChecked('accessibility') },
+      livrable: { type: get('projectType') === 'autre' ? get('projectTypeOther') : get('projectType'), pages: get('projectPages'), fonctionnalites: getChecked('features'), fonctionnalites_autres: get('featuresOther') },
+      donnees: { sante: getRadio('healthData'), personnelles: getRadio('personalData'), contraintes: getChecked('regulations'), integration: get('dataIntegration') },
+      design: { style: get('designStyle'), couleurs: get('designColors'), logo: get('designLogo'), refs: get('designRefs') },
+      contenu: { textes: getRadio('contentText'), images: getRadio('contentImages') },
+      technique: { domaine: get('techDomain'), domaine_nom: get('techDomainName'), existant: get('techExisting'), budget_host: get('techBudgetHost') },
+      projet: { budget: get('projectBudget'), deadline: get('projectDeadline'), deadline_contrainte: get('deadlineConstraint'), maintenance: getRadio('maintenance'), formation: getRadio('formation'), autonomie: getRadio('autonomy'), autonomie_details: get('autonomyDetails'), priorites: get('priorities'), notes: get('notesExtra') }
+    };
+  }
+
+  // === GENERATE DOCX ===
+async function generateDocx() {
+  const d = collectData();
+  if (!d.client.nom || !d.objectifs.principal) {
+    showToast('⚠️ Remplissez au minimum le nom du client et l\'objectif principal');
+    return;
+  }
+
+  const {
+    Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+    AlignmentType, BorderStyle, WidthType, ShadingType, VerticalAlign, LevelFormat
+  } = docx;
+
+  // ── PALETTE (identique au CSS du formulaire) ──
+  const C = {
+    black:  '1A1A1A',
+    gray:   '7A7672',
+    border: 'DDD9D3',
+    beige:  'F8F8F6',   // --bg
+    white:  'FFFFFF',   // --surface
+    num:    'C4C1BB',   // --section-num
+    red:    'C0392B',   // accent rouge du portfolio
+    green:  '2D6A4F',
+  };
+
+  // ── CONSTANTES MISE EN PAGE ──
+  // A4, marges 1.5cm (850 DXA) → largeur utile ≈ 9206 DXA
+  const PAGE_W = 9206;
+  const noBorder  = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+  const noBorders = { top: noBorder, bottom: noBorder, left: noBorder, right: noBorder, insideH: noBorder, insideV: noBorder };
+  const cardBorder = { style: BorderStyle.SINGLE, size: 4, color: C.border };
+  const cardBorders = { top: cardBorder, bottom: cardBorder, left: cardBorder, right: cardBorder };
+  const fieldBorder = { style: BorderStyle.SINGLE, size: 3, color: C.border };
+  const fieldBorders = { top: fieldBorder, bottom: fieldBorder, left: fieldBorder, right: fieldBorder };
+
+  // ── HELPERS ──
+
+  function sp(before = 0, after = 0) {
+    return new Paragraph({ spacing: { before, after }, children: [new TextRun('')] });
+  }
+
+  // Numéro gris + titre noir + trait rouge dessous (= section-header du formulaire)
+  function sectionHeader(num, title) {
+    return [
+      sp(320, 0),
+      new Paragraph({
+        spacing: { after: 0 },
+        children: [
+          new TextRun({ text: num + '  ', font: 'Calibri', size: 36, bold: true, color: C.num }),
+          new TextRun({ text: title, font: 'Calibri', size: 26, bold: true, color: C.black }),
+        ]
+      }),
+      // trait rouge sous le titre (simule le border-bottom rouge du formulaire)
+      new Paragraph({
+        spacing: { before: 60, after: 180 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: C.red, space: 1 } },
+        children: [new TextRun({ text: '            ', font: 'Calibri', size: 4 })]
+      }),
+    ];
+  }
+
+  // Un champ avec label gris au dessus + valeur dans un encadré blanc (= input du formulaire)
+  function fieldBox(label, value, colWidth) {
+    if (!value || (Array.isArray(value) && !value.length)) return null;
+    const val = Array.isArray(value) ? value.join(', ') : String(value);
+    const w = colWidth || PAGE_W;
+    return new Table({
+      width: { size: w, type: WidthType.DXA },
+      columnWidths: [w],
+      borders: noBorders,
+      rows: [
+        // Label
+        new TableRow({ children: [new TableCell({
+          borders: noBorders,
+          width: { size: w, type: WidthType.DXA },
+          margins: { top: 0, bottom: 40, left: 0, right: 0 },
+          children: [new Paragraph({
+            spacing: { after: 0 },
+            children: [new TextRun({ text: label, font: 'Calibri', size: 18, bold: true, color: C.gray })]
+          })]
+        })] }),
+        // Valeur encadrée
+        new TableRow({ children: [new TableCell({
+          borders: fieldBorders,
+          shading: { fill: C.white, type: ShadingType.CLEAR },
+          width: { size: w, type: WidthType.DXA },
+          margins: { top: 80, bottom: 80, left: 120, right: 120 },
+          children: [new Paragraph({
+            children: [new TextRun({ text: val, font: 'Calibri', size: 20, color: C.black })]
+          })]
+        })] }),
+        // Espacement bas
+        new TableRow({ children: [new TableCell({
+          borders: noBorders,
+          width: { size: w, type: WidthType.DXA },
+          margins: { top: 0, bottom: 0, left: 0, right: 0 },
+          children: [new Paragraph({ spacing: { after: 80 }, children: [new TextRun('')] })]
+        })] }),
+      ]
+    });
+  }
+
+  // Champ multi-lignes (textarea)
+  function fieldBoxLong(label, value) {
+    if (!value) return null;
+    const lines = value.split('\n').filter(l => l.trim());
+    if (!lines.length) return null;
+    return new Table({
+      width: { size: PAGE_W, type: WidthType.DXA },
+      columnWidths: [PAGE_W],
+      borders: noBorders,
+      rows: [
+        new TableRow({ children: [new TableCell({
+          borders: noBorders,
+          width: { size: PAGE_W, type: WidthType.DXA },
+          margins: { top: 0, bottom: 40, left: 0, right: 0 },
+          children: [new Paragraph({
+            children: [new TextRun({ text: label, font: 'Calibri', size: 18, bold: true, color: C.gray })]
+          })]
+        })] }),
+        new TableRow({ children: [new TableCell({
+          borders: fieldBorders,
+          shading: { fill: C.white, type: ShadingType.CLEAR },
+          width: { size: PAGE_W, type: WidthType.DXA },
+          margins: { top: 100, bottom: 100, left: 140, right: 140 },
+          children: lines.map(line => new Paragraph({
+            spacing: { after: 40 },
+            numbering: { reference: 'bullets', level: 0 },
+            children: [new TextRun({ text: line.replace(/^[-•]\s*/, ''), font: 'Calibri', size: 20, color: C.black })]
+          }))
+        })] }),
+        new TableRow({ children: [new TableCell({
+          borders: noBorders, width: { size: PAGE_W, type: WidthType.DXA },
+          margins: { top: 0, bottom: 0, left: 0, right: 0 },
+          children: [new Paragraph({ spacing: { after: 80 }, children: [new TextRun('')] })]
+        })] }),
+      ]
+    });
+  }
+
+  // Deux champs côte à côte (= .two-cols)
+  function twoCols(label1, val1, label2, val2) {
+    const half = Math.floor((PAGE_W - 200) / 2);
+    const items = [];
+    if (val1) items.push(fieldBox(label1, val1, half));
+    if (val2) items.push(fieldBox(label2, val2, half));
+    if (!items.length) return null;
+    if (items.length === 1) return items[0];
+    // Wrapper côte à côte via tableau 2 colonnes
+    return new Table({
+      width: { size: PAGE_W, type: WidthType.DXA },
+      columnWidths: [half, 200, half],
+      borders: noBorders,
+      rows: [new TableRow({ children: [
+        new TableCell({ borders: noBorders, width: { size: half, type: WidthType.DXA }, margins: { top: 0, bottom: 0, left: 0, right: 0 }, children: [items[0]] }),
+        new TableCell({ borders: noBorders, width: { size: 200, type: WidthType.DXA }, children: [new Paragraph({ children: [new TextRun('')] })] }),
+        new TableCell({ borders: noBorders, width: { size: half, type: WidthType.DXA }, margins: { top: 0, bottom: 0, left: 0, right: 0 }, children: [items[1]] }),
+      ]})]
+    });
+  }
+
+  // Pills (checkbox/radio sélectionnés) = badges gris encadrés
+  function pillsBox(label, values) {
+    if (!values || !values.length) return null;
+    return new Table({
+      width: { size: PAGE_W, type: WidthType.DXA },
+      columnWidths: [PAGE_W],
+      borders: noBorders,
+      rows: [
+        new TableRow({ children: [new TableCell({
+          borders: noBorders, width: { size: PAGE_W, type: WidthType.DXA },
+          margins: { top: 0, bottom: 40, left: 0, right: 0 },
+          children: [new Paragraph({
+            children: [new TextRun({ text: label, font: 'Calibri', size: 18, bold: true, color: C.gray })]
+          })]
+        })] }),
+        new TableRow({ children: [new TableCell({
+          borders: noBorders, width: { size: PAGE_W, type: WidthType.DXA },
+          margins: { top: 0, bottom: 0, left: 0, right: 0 },
+          children: [new Paragraph({
+            spacing: { after: 80 },
+            children: values.flatMap((v, i) => [
+              new TextRun({ text: ' ' + v + ' ', font: 'Calibri', size: 18, color: C.black,
+                shading: { fill: C.beige, type: ShadingType.CLEAR },
+                border: { style: BorderStyle.SINGLE, size: 2, color: C.border, space: 4 }
+              }),
+              ...(i < values.length - 1 ? [new TextRun({ text: '  ', font: 'Calibri', size: 18 })] : [])
+            ])
+          })]
+        })] }),
+      ]
+    });
+  }
+
+  // Carte blanche avec bordure (= .form-section)
+  function card(innerRows) {
+    const filtered = innerRows.filter(Boolean);
+    return new Table({
+      width: { size: PAGE_W, type: WidthType.DXA },
+      columnWidths: [PAGE_W],
+      borders: cardBorders,
+      rows: [new TableRow({ children: [new TableCell({
+        borders: cardBorders,
+        shading: { fill: C.white, type: ShadingType.CLEAR },
+        width: { size: PAGE_W, type: WidthType.DXA },
+        margins: { top: 240, bottom: 240, left: 300, right: 300 },
+        children: filtered
+      })] })]
+    });
+  }
+
+  // ── COVER PAGE ──
+  const coverCard = card([
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 60 },
+      children: [new TextRun({ text: 'Pierre Gozard', font: 'Georgia', size: 52, bold: true, color: C.black })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 20 },
+      children: [new TextRun({ text: 'Dev Full-Stack · Infirmier DE', font: 'Calibri', size: 20, color: C.gray })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 280 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: C.red, space: 8 } },
+      children: [new TextRun({ text: '                    ', font: 'Calibri', size: 4 })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 80 },
+      children: [new TextRun({ text: 'COMPTE-RENDU', font: 'Calibri', size: 36, bold: true, color: C.black })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 240 },
+      children: [new TextRun({ text: 'Premier RDV Projet', font: 'Calibri', size: 24, color: C.gray })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: 'Client : ', font: 'Calibri', size: 22, color: C.gray }),
+        new TextRun({ text: d.client.nom, font: 'Calibri', size: 26, bold: true, color: C.black }),
+      ]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 160 },
+      children: [
+        new TextRun({ text: 'Date : ' + (d.client.date_rdv || new Date().toLocaleDateString('fr-FR')), font: 'Calibri', size: 20, color: C.gray }),
+      ]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 60 },
+      children: [new TextRun({ text: 'Objectif principal :', font: 'Calibri', size: 18, color: C.gray, bold: true })]
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: d.objectifs.principal, font: 'Calibri', size: 22, bold: true, color: C.black })]
+    }),
+  ]);
+
+  // ── SECTIONS ──
+  function section(num, title, fields) {
+    return card([
+      ...sectionHeader(num, title),
+      ...fields.filter(Boolean)
+    ]);
+  }
+
+  const s01 = section('01', 'Qui êtes-vous ?', [
+    twoCols('Nom / Prénom', d.client.nom, 'Rôle / Fonction', d.client.role),
+    fieldBox('Structure / Établissement', d.client.structure),
+    twoCols('Email', d.client.email, 'Téléphone', d.client.telephone),
+    fieldBox('Date du RDV', d.client.date_rdv),
+  ]);
+
+  const s02 = section('02', 'Le problème à résoudre', [
+    fieldBoxLong('Comment ça se passe aujourd\'hui ?', d.probleme.aujourdhui),
+    fieldBoxLong('Ce qui pose problème', d.probleme.frustration),
+    fieldBoxLong('Si tout marchait parfaitement…', d.probleme.ideal),
+    fieldBoxLong('Pourquoi ce projet maintenant ?', d.probleme.declencheur),
+  ]);
+
+  const s03 = section('03', 'Objectifs concrets', [
+    fieldBox('Objectif principal', d.objectifs.principal),
+    fieldBoxLong('Objectifs secondaires', d.objectifs.secondaires),
+    fieldBoxLong('Comment on saura que c\'est réussi ?', d.objectifs.succes),
+  ]);
+
+  const s04 = section('04', 'Les utilisateurs', [
+    pillsBox('Qui utilisera l\'outil ?', d.utilisateurs.types),
+    fieldBoxLong('Profil type', d.utilisateurs.profil),
+    fieldBox('Nombre approximatif', d.utilisateurs.nombre),
+    pillsBox('Accessibilité', d.utilisateurs.accessibilite),
+  ]);
+
+  const s05 = section('05', 'Ce qu\'il faut construire', [
+    fieldBox('Type de livrable', d.livrable.type),
+    fieldBoxLong('Pages / Écrans envisagés', d.livrable.pages),
+    pillsBox('Fonctionnalités', d.livrable.fonctionnalites),
+    fieldBoxLong('Autres besoins spécifiques', d.livrable.fonctionnalites_autres),
+  ]);
+
+  const s06 = section('06', 'Données & Réglementation', [
+    twoCols('Données de santé', d.donnees.sante, 'Données personnelles', d.donnees.personnelles),
+    pillsBox('Contraintes réglementaires', d.donnees.contraintes),
+    fieldBoxLong('Connexions avec des systèmes existants', d.donnees.integration),
+  ]);
+
+  const s07 = section('07', 'Apparence & Contenu', [
+    fieldBox('Ambiance souhaitée', d.design.style),
+    twoCols('Couleurs / Charte', d.design.couleurs, 'Logo', d.design.logo),
+    fieldBoxLong('Références visuelles', d.design.refs),
+    twoCols('Textes fournis par', d.contenu.textes, 'Images fournies par', d.contenu.images),
+  ]);
+
+  const s08 = section('08', 'Technique & Hébergement', [
+    twoCols('Domaine', d.technique.domaine, 'Adresse souhaitée', d.technique.domaine_nom),
+    fieldBoxLong('Existant en place', d.technique.existant),
+    fieldBox('Budget hébergement mensuel', d.technique.budget_host),
+  ]);
+
+  const s09 = section('09', 'Budget, Délai & Après-livraison', [
+    twoCols('Budget global', d.projet.budget, 'Échéance souhaitée', d.projet.deadline),
+    fieldBox('Contrainte sur la date', d.projet.deadline_contrainte),
+    pillsBox('Maintenance après livraison', d.projet.maintenance ? [d.projet.maintenance] : []),
+    pillsBox('Formation nécessaire', d.projet.formation ? [d.projet.formation] : []),
+    pillsBox('Autonomie souhaitée', d.projet.autonomie ? [d.projet.autonomie] : []),
+    fieldBoxLong('Détails autonomie', d.projet.autonomie_details),
+    fieldBoxLong('Top 3 priorités', d.projet.priorites),
+    fieldBoxLong('Notes complémentaires', d.projet.notes),
+  ]);
+
+  // ── FOOTER ──
+  const footerLine = new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 300 },
+    border: { top: { style: BorderStyle.SINGLE, size: 1, color: C.border, space: 8 } },
+    children: [new TextRun({
+      text: 'Document généré le ' + new Date().toLocaleDateString('fr-FR') + '  ·  Pierre Gozard  ·  pierre-gozard.com',
+      font: 'Calibri', size: 16, color: C.gray, italics: true
+    })]
+  });
+
+  // ── DOCUMENT ──
+  const doc = new Document({
+    numbering: {
+      config: [{
+        reference: 'bullets',
+        levels: [{ level: 0, format: LevelFormat.BULLET, text: '–', alignment: AlignmentType.LEFT,
+          style: { paragraph: { indent: { left: 360, hanging: 200 } } } }]
+      }]
+    },
+    styles: {
+      default: { document: { run: { font: 'Calibri', size: 20, color: C.black } } }
+    },
+    sections: [{
+      properties: {
+        page: {
+          size: { width: 11906, height: 16838 },
+          margin: { top: 850, bottom: 850, left: 850, right: 850 }
+        }
+      },
+      children: [
+        coverCard, sp(240, 0),
+        s01, sp(160, 0),
+        s02, sp(160, 0),
+        s03, sp(160, 0),
+        s04, sp(160, 0),
+        s05, sp(160, 0),
+        s06, sp(160, 0),
+        s07, sp(160, 0),
+        s08, sp(160, 0),
+        s09, sp(160, 0),
+        footerLine
+      ]
+    }]
+  });
+
+  const blob = await Packer.toBlob(doc);
+  const filename = 'brief_' + d.client.nom.replace(/\s+/g, '_').toLowerCase() + '_' + new Date().toISOString().slice(0, 10) + '.docx';
+  saveAs(blob, filename);
+  showToast('✅ Compte-rendu téléchargé !');
+}
+  // === GENERATE YAML PROMPT ===
+  function generatePrompt() {
+    const d = collectData();
+    if (!d.objectifs.principal) {
+      showToast('⚠️ Remplissez au minimum l\'objectif principal');
+      return;
+    }
+
+    let y = '';
+    const line = (key, val) => { if (val) y += key + ': ' + val + '\n'; };
+    const arr = (key, vals) => { if (vals && vals.length) y += key + ': [' + vals.join(', ') + ']\n'; };
+    const ml = (key, val) => { if (val) y += key + ': ' + val.replace(/\n/g, ' ') + '\n'; };
+
+    y += '# CONTEXTE\n';
+    line('client', d.client.nom);
+    line('role', d.client.role);
+    line('structure', d.client.structure);
+
+    y += '\n# PROBLÈME\n';
+    ml('situation_actuelle', d.probleme.aujourdhui);
+    ml('frustrations', d.probleme.frustration);
+    ml('situation_ideale', d.probleme.ideal);
+    ml('declencheur', d.probleme.declencheur);
+
+    y += '\n# OBJECTIFS\n';
+    line('objectif_principal', d.objectifs.principal);
+    ml('secondaires', d.objectifs.secondaires);
+    ml('criteres_succes', d.objectifs.succes);
+
+    y += '\n# UTILISATEURS\n';
+    arr('types', d.utilisateurs.types);
+    ml('profil', d.utilisateurs.profil);
+    line('nombre', d.utilisateurs.nombre);
+    arr('accessibilite', d.utilisateurs.accessibilite);
+
+    if (d.livrable.type || d.livrable.fonctionnalites.length) {
+      y += '\n# LIVRABLE\n';
+      line('type', d.livrable.type);
+      if (d.livrable.pages) {
+        const pageList = d.livrable.pages.split('\n').map(p => p.trim().replace(/^[-•]\s*/, '')).filter(Boolean);
+        arr('pages', pageList);
+      }
+      arr('features', d.livrable.fonctionnalites);
+      ml('features_extra', d.livrable.fonctionnalites_autres);
+    }
+
+    y += '\n# DONNÉES & RÉGLEMENTATION\n';
+    line('donnees_sante', d.donnees.sante);
+    line('donnees_perso', d.donnees.personnelles);
+    arr('contraintes_regl', d.donnees.contraintes);
+    ml('integrations', d.donnees.integration);
+
+    if (d.design.style || d.design.couleurs || d.design.refs) {
+      y += '\n# DESIGN\n';
+      line('ambiance', d.design.style);
+      line('couleurs', d.design.couleurs);
+      line('logo', d.design.logo);
+      ml('refs', d.design.refs);
+    }
+
+    y += '\n# CONTENU\n';
+    line('textes', d.contenu.textes);
+    line('images', d.contenu.images);
+
+    y += '\n# TECHNIQUE\n';
+    line('domaine', d.technique.domaine_nom || d.technique.domaine);
+    ml('existant', d.technique.existant);
+    line('budget_hosting', d.technique.budget_host);
+
+    y += '\n# PROJET\n';
+    line('budget', d.projet.budget);
+    line('deadline', d.projet.deadline);
+    line('contrainte_date', d.projet.deadline_contrainte);
+    line('maintenance', d.projet.maintenance);
+    line('formation', d.projet.formation);
+    line('autonomie', d.projet.autonomie);
+    ml('autonomie_details', d.projet.autonomie_details);
+    ml('priorites', d.projet.priorites);
+    ml('notes', d.projet.notes);
+
+    document.getElementById('yamlOutput').textContent = y;
+    document.getElementById('promptModal').classList.add('active');
+  }
+
+  // === UTILS ===
+  function closeModal() { document.getElementById('promptModal').classList.remove('active'); }
+
+  function copyPrompt() {
+    navigator.clipboard.writeText(document.getElementById('yamlOutput').textContent).then(() => showToast('✅ Prompt copié !'));
+  }
+
+  function resetForm() {
+    if (confirm('Réinitialiser tout le formulaire ?')) {
+      document.getElementById('briefForm').reset();
+      document.querySelectorAll('.pill-group label.active').forEach(l => l.classList.remove('active'));
+      updateProgress();
+      showToast('Formulaire réinitialisé');
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  document.getElementById('promptModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+    // Secret shortcut: Ctrl+Shift+P → generate prompt
+    if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+      e.preventDefault();
+      generatePrompt();
+    }
+  });
+  updateProgress();
+</script>
+
+</div><!-- /appContent -->
+
+<script>
+  // ═══════ PASSWORD LOCK ═══════
+  // MOT DE PASSE ICI — Par défaut : brief2026
+  // Pour changer : allez sur https://emn178.github.io/online-tools/sha256.html
+  // Tapez votre nouveau mot de passe, copiez le hash, remplacez ci-dessous.
+  const PASS_HASH = '73229348d7b342d2c1569d5ed3810f344e235724a9262d86cf5a2264cee02e2c';
+
+  async function hashSHA256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function unlock() {
+    const input = document.getElementById('lockPassword').value;
+    const hash = await hashSHA256(input);
+    if (hash === PASS_HASH) {
+      document.getElementById('lockScreen').style.display = 'none';
+      document.getElementById('appContent').style.display = 'block';
+      sessionStorage.setItem('brief_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('lockPassword').value = '';
+      document.getElementById('lockPassword').focus();
+    }
+  }
+
+  // Stay unlocked during session (no re-enter on page refresh)
+  if (sessionStorage.getItem('brief_unlocked') === '1') {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+  } else {
+    document.getElementById('lockPassword').focus();
+  }
+</script>
+
+</body>
+</html>
