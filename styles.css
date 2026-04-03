@@ -28,6 +28,11 @@
   --esante-secondary: #9E4F24;
   --esante-light:     #FDF0E8;
 
+  /* Palette Brief / Espace Projet (ardoise sobre) */
+  --brief-primary:   #3D5A80;
+  --brief-accent:    #5B7FA6;
+  --brief-light:     #EEF3F9;
+
   --shadow:    0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
   --transition: all 0.3s ease;
@@ -93,6 +98,8 @@ body {
 .page-infirmier .logo:hover  { color: var(--infirmier-accent); }
 .page-projets .logo          { color: var(--projets-primary); }
 .page-projets .logo:hover    { color: var(--projets-accent); }
+.page-brief .logo            { color: var(--brief-primary); }
+.page-brief .logo:hover      { color: var(--brief-accent); }
 
 .nav-menu {
   display: flex;
@@ -121,6 +128,7 @@ body {
 
 .page-infirmier .nav-link::after { background-color: var(--infirmier-primary); }
 .page-projets .nav-link::after   { background-color: var(--projets-primary); }
+.page-brief .nav-link::after     { background-color: var(--brief-primary); }
 
 .nav-link:hover::after,
 .nav-link.active::after { width: 100%; }
@@ -131,12 +139,16 @@ body {
 .page-infirmier .nav-link.active       { color: var(--infirmier-primary); }
 .page-projets .nav-link:hover,
 .page-projets .nav-link.active         { color: var(--projets-primary); }
+.page-brief .nav-link:hover,
+.page-brief .nav-link.active           { color: var(--brief-primary); }
 
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
   gap: 5px;
+  background: none;
+  border: none;
 }
 
 .hamburger span {
@@ -219,7 +231,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* CV note (utilisée si le lien CV est réactivé) */
 .cv-note {
   font-size: 0.8rem;
   color: var(--gray-medium);
@@ -334,6 +345,7 @@ body {
 
 .page-infirmier .section-title::after { background-color: var(--infirmier-primary); }
 .page-projets .section-title::after   { background-color: var(--projets-primary); }
+.page-brief .section-title::after     { background-color: var(--brief-primary); }
 
 /* ==========================================
    ABOUT SECTION
@@ -377,6 +389,7 @@ body {
 
 .page-infirmier .icon { background: linear-gradient(135deg, var(--infirmier-primary), var(--infirmier-accent)); }
 .page-projets .icon   { background: linear-gradient(135deg, var(--projets-primary), var(--projets-accent)); }
+.page-brief .icon     { background: linear-gradient(135deg, var(--brief-primary), var(--brief-accent)); }
 
 .about-card h3 {
   font-size: 1.5rem;
@@ -493,6 +506,7 @@ body {
 
 .page-infirmier .skill-category { border-left-color: var(--infirmier-primary); }
 .page-projets .skill-category   { border-left-color: var(--projets-primary); }
+.page-brief .skill-category     { border-left-color: var(--brief-primary); }
 
 .skill-category h3 {
   font-size: 1.3rem;
@@ -502,6 +516,7 @@ body {
 
 .page-infirmier .skill-category h3 { color: var(--infirmier-primary); }
 .page-projets .skill-category h3   { color: var(--projets-primary); }
+.page-brief .skill-category h3     { color: var(--brief-primary); }
 
 .skill-category ul {
   list-style: none;
@@ -523,6 +538,7 @@ body {
 
 .page-infirmier .skill-category li::before { color: var(--infirmier-accent); }
 .page-projets .skill-category li::before   { color: var(--projets-accent); }
+.page-brief .skill-category li::before     { color: var(--brief-accent); }
 
 /* ==========================================
    CONTACT SECTION
@@ -574,7 +590,7 @@ body {
 }
 
 /* ==========================================
-   PAGE HEADER (projets.html & parcours.html)
+   PAGE HEADER (projets.html, parcours.html, brief.html)
    ========================================== */
 
 .page-header {
@@ -586,6 +602,7 @@ body {
 
 .page-infirmier .page-header { background: linear-gradient(135deg, var(--infirmier-primary), var(--infirmier-accent)); }
 .page-projets .page-header   { background: linear-gradient(135deg, var(--projets-primary), var(--projets-secondary)); }
+.page-brief .page-header     { background: linear-gradient(135deg, var(--brief-primary), var(--brief-accent)); }
 
 .page-header h1 {
   font-size: 3rem;
@@ -749,7 +766,6 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* Liste de points dans la description de projet */
 .project-description ul {
   list-style: none;
   margin-top: 0.75rem;
@@ -797,7 +813,7 @@ body {
 
 .video-container {
   position: relative;
-  padding-bottom: 56.25%; /* Ratio 16:9 */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   border-radius: 8px;
@@ -1062,6 +1078,7 @@ body {
   text-align: center;
   padding: 2rem;
 }
+
 /* ==========================================
    DISTINCTION (parcours.html)
    ========================================== */
@@ -1108,18 +1125,25 @@ body {
   font-weight: 600;
   margin-top: 0.8rem;
 }
+
+/* ==========================================
+   FOCUS VISIBLE
+   ========================================== */
+
 :focus-visible {
   outline: 3px solid var(--primary-color);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
+.page-infirmier :focus-visible { outline-color: var(--infirmier-primary); }
+.page-projets :focus-visible   { outline-color: var(--projets-primary); }
+.page-brief :focus-visible     { outline-color: var(--brief-primary); }
 
 /* ==========================================
    RESPONSIVE
    ========================================== */
 
-/* Badges hero : 1 ligne si ça tient (≥540px), sinon 3 lignes (jamais 2+1) */
 @media (min-width: 540px) and (max-width: 968px) {
   .hero-badges {
     flex-direction: row;
@@ -1134,7 +1158,6 @@ body {
   }
 }
 
-/* Petits mobiles et tous les appareils mobiles */
 @media (max-width: 968px) {
   .hamburger {
     display: flex;
@@ -1180,7 +1203,6 @@ body {
     justify-content: center;
   }
 
-  /* Badges en colonne par défaut sur mobile */
   .hero-badges {
     flex-direction: column;
     align-items: center;
@@ -1210,7 +1232,6 @@ body {
     font-size: 2rem;
   }
 
-  /* Timeline responsive — tout à gauche sur mobile */
   .timeline-container::before {
     left: 30px;
   }
@@ -1265,18 +1286,7 @@ body {
     width: 100%;
   }
 
-  /* Correction profile-circle sur mobile */
   .profile-circle {
     max-width: 250px;
   }
 }
-
-/* Focus visible pour navigation clavier */
-:focus-visible {
-  outline: 3px solid var(--primary-color);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-.page-infirmier :focus-visible { outline-color: var(--infirmier-primary); }
-.page-projets :focus-visible   { outline-color: var(--projets-primary); }
