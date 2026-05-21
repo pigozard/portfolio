@@ -1290,3 +1290,21 @@ body {
     max-width: 250px;
   }
 }
+
+.project-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  background: rgba(232, 160, 32, 0.12);
+  color: #D4920A;
+  border: 1px solid rgba(232, 160, 32, 0.5);
+}
+
+.timeline-content.en-cours {
+  border: 2px dashed #E8A020;
+}
